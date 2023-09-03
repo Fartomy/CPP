@@ -1,0 +1,6 @@
+99 icardi mauro 10 10 60 50 40 30
+221 moriarty jim 100 100 100 100 100 100
+1236 gilmore rory 80 70 60 50 40 30
+1237 gilmore lorelai 30 30 60 50 40 30
+1 handler barbara 20 70 60 50 40 30
+1945 oppenheimer robert 90 70 60 50 40 30
