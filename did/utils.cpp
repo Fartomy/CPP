@@ -15,9 +15,7 @@ int theMenu(Did& did)
             did.addElement(did.generateNewElement(input));
         }
         else if(input == "2")
-        {
-            cout << "Random" << endl;
-        }
+            did.randomHaveGetTask();
         else if(input == "3")
         {
             cout << "Update" << endl;
@@ -29,6 +27,10 @@ int theMenu(Did& did)
             cout << "Delete" << endl;
         }
         else if(input == "6")
+        {
+            cout << "Display current task" << endl;
+        }
+        else if(input == "7")
         {
             cout << R"(
  ________  ________  ________  ________          ___       ___  ___  ________  ___  __    ___       
@@ -72,7 +74,7 @@ void welcome(Did& did)
 /*                                                   It's just a helper..   */
 ******************************************************************************
     )" << endl;
-    progressBar();
+    progressBarEffc();
     cout << R"(
  __          __  _               _           _                                           _           ___  
  \ \        / / | |             | |         | |                                         | |         |__ \ 
@@ -81,18 +83,23 @@ void welcome(Did& did)
     \  /\  /    | | | | | (_| | | |_    | (_| | | (_) |   | |_| | | (_) | | |_| |   | (_| | | (_) |  |_|  
      \/  \/     |_| |_|  \__,_|  \__|    \__,_|  \___/     \__, |  \___/   \__,_|    \__,_|  \___/   (_)  
                                                             __/ |                                         
-                                                           |___/    
+                                                           |___/
+
+Rules:
+2- Don't fool yourself  
+1- After finishing a task, that task cannot be done again until all other tasks are completed
+3- Don't deceive yourself                                                            
 
  ------------------------------------------------------------------------------------------------------------                                                                                                 
     )" << endl;
 
     cout << "The to do list:\n1- Add new element\n2- Choice new task as random\n3- Update element\n"
-    "4- List elements\n5- Delete Element\n6- Exit" << endl;
+    "4- List elements\n5- Delete Element\n6- Display current task\n7- Exit" << endl;
 
     theMenu(did);
 }
 
-void progressBar(void)
+void progressBarEffc(void)
 {
     const int totalSteps = 10;
     for (int i = 0; i <= totalSteps; ++i) {
@@ -109,4 +116,32 @@ void progressBar(void)
         cout.flush();
     }
     cout << "\nCompleted!" << endl;
+}
+
+void diceRollEffc()
+{
+    int durationInSeconds = 3;
+    std::cout << "Rolling dice.." << std::endl;
+    std::cout << '-' << std::flush;
+    
+    auto startTime = std::chrono::steady_clock::now();
+    
+    while (1) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::cout << "\b\\" << std::flush;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::cout << "\b|" << std::flush;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::cout << "\b/" << std::flush;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::cout << "\b-" << std::flush;
+        
+        auto currentTime = std::chrono::steady_clock::now();
+        auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - startTime).count();
+        
+        if (elapsedTime >= durationInSeconds) {
+            break;
+        }
+    }   
+    std::cout << std::endl;
 }

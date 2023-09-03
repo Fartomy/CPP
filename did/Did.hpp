@@ -9,6 +9,7 @@
 #include <map>
 #include <vector>
 #include <thread>
+#include <unistd.h>
 
 using std::cout;
 using std::cin;
@@ -38,22 +39,28 @@ public:
     Element generateNewElement(string elementName);
     void addElement(const Element& element);
     void listElements(void);
-    void randomElement(void);
+    void randomHaveGetTask(void);
 /*
     void isHaveaAnyTask(void);
     void updateElement(Element& element);
     void deleteElement(Element& element);
     void Save(void);
     void Load(void);
+    void displayCurrentTask(void);
 */
+    // Friend functions
+    friend void getRandomMaterial(const Did& obj);
 
 private:
     vector<Element> elements;
     bool isHaveaTask = false;
+    Element currentTask;
+    string currentTaskMat;
 };
 
 void welcome(Did& did);
 int theMenu(Did& did);
-void progressBar(void);
+void progressBarEffc(void);
+void diceRollEffc(void);
 
 #endif

@@ -5,7 +5,7 @@ LIB				=	Did.hpp
 
 OBJS			=	$(SRCS:%.cpp=%.o)
 
-CC				= 	c++
+CC				= 	g++ -w
 RM				= 	rm -rf
 
 all:			$(NAME)

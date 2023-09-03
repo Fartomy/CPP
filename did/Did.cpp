@@ -68,7 +68,98 @@ void Did::listElements(void)
     }
 }
 
+void Did::randomHaveGetTask(void)
+{
+    if(elements.empty() || isHaveaTask)
+    {
+        cout << "You don't have any elements yet or you have a already task!" << endl;
+        return;
+    }
+    vector<Element> falseElements;
+    vector<string> falseMaterials;
+
+    for(const auto& element : elements)
+    {
+        if(element.isCompleted == false)
+            falseElements.push_back(element);
+    }
+    if(falseElements.empty())
+    {
+        cout << R"(
+
+ ██████╗ ██████╗ ███╗   ██╗ ██████╗  ██████╗ ██████╗  █████╗ ████████╗██╗   ██╗██╗      █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗██╗
+██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔═══██╗██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██║     ██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝██║
+██║     ██║   ██║██╔██╗ ██║██║  ███╗██║   ██║██████╔╝███████║   ██║   ██║   ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗██║
+██║     ██║   ██║██║╚██╗██║██║   ██║██║   ██║██╔══██╗██╔══██║   ██║   ██║   ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║╚════██║╚═╝
+╚██████╗╚██████╔╝██║ ╚████║╚██████╔╝╚██████╔╝██║  ██║██║  ██║   ██║   ╚██████╔╝███████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║██╗
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝
+
+All tasks are completed!
+Whole elements are resetting..
+            )" << endl;
+        progressBarEffc();
+        for(int i = 0; i < elements.size(); i++)
+        {
+            elements[i].isCompleted = false;
+            for(auto it = elements[i].materials.begin(); it != elements[i].materials.end(); ++it)
+                it->second = false;
+        }
+        return;
+    }
+    else if(falseElements.size() == 1)
+    {
+        currentTask = falseElements[0];
+        isHaveaTask = true;
+        for(const auto& material : currentTask.materials)
+        {
+            if(material.second == false)
+                falseMaterials.push_back(material.first);
+        }
+        if(falseMaterials.size() == 1)
+            currentTaskMat = falseMaterials[0];
+        else
+        {
+            srand(time(NULL));
+            int randomElement = rand() % falseMaterials.size();
+            currentTaskMat = falseMaterials[randomElement];
+        }
+        diceRollEffc();
+        cout << "Result:" << endl;
+        cout << "Your task is: " << currentTask.name << " -> " << currentTaskMat << endl;
+        return;
+    }
+    else
+    {
+        srand(time(NULL));
+        int randomElement = rand() % falseElements.size();
+        currentTask = falseElements[randomElement];
+        isHaveaTask = true;
+        for(const auto& material : currentTask.materials)
+        {
+            if(material.second == false)
+                falseMaterials.push_back(material.first);
+        }
+        if(falseMaterials.size() == 1)
+            currentTaskMat = falseMaterials[0];
+        else
+        {
+            srand(time(NULL));
+            int randomElement = rand() % falseMaterials.size();
+            currentTaskMat = falseMaterials[randomElement];
+        }
+        diceRollEffc();
+        cout << "Result:" << endl;
+        cout << "Your task is: " << currentTask.name << " -> " << currentTaskMat << endl;
+        return;
+    }
+}
+
 /*
+void Did::displayCurrentTas(void)
+{
+    
+}
+
 void Did::updateElement(Element& element)
 {
 
@@ -84,8 +175,11 @@ void Did::isHaveaAnyElement(void)
 
 }
 
-void Did::randomElement(void)
+// Friend Functions
+void getRandomMaterial(const Did& obj)
 {
-
+    
 }
+
 */
+
