@@ -1,2 +1,2 @@
 # CPP
-CPP practice projects.
+C (P)ractice (P)rojects
