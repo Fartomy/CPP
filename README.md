@@ -1,2 +1,2 @@
-# CPracticeProjects
+# CPP
 CPP practice projects.
