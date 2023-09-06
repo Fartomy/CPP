@@ -38,7 +38,8 @@ void Did::listElements(void)
     cout << "The elements:" << endl;
     for(auto element : elements)
     {
-        cout << i + 1 << "- "<< element.name << endl;
+        cout << i + 1 << "- "<< element.name << " | status: " << 
+        boolalpha << element.isCompleted << noboolalpha << endl;
         i++;
     }
     cout << "Enter the name of the element to see the materials\nFor example: 'Reading'" 
@@ -55,7 +56,7 @@ void Did::listElements(void)
                 cout << "Materials of [" << element.name << "]:" << endl;
                 for(auto material : element.materials)
                 {
-                    cout << i + 1 << "- name: " << material.first << " | status: " << 
+                    cout << i + 1 << "-  " << material.first << " | status: " << 
                     boolalpha << material.second << noboolalpha << endl;
                     i++;
                 }
@@ -154,16 +155,103 @@ Whole elements are resetting..
     }
 }
 
-/*
-void Did::displayCurrentTas(void)
+void Did::completeTask(void)
 {
-    
+    if(elements.empty() || !isHaveaTask)
+    {
+        cout << "You don't have any elements yet or you have not a task!" << endl;
+        return;
+    }
+    for(auto& element : elements)
+    {
+        if(element.name == currentTask.name)
+        {
+            for(auto& material : element.materials)
+            {
+                if(material.first == currentTaskMat)
+                {
+                    material.second = true;
+                    break;
+                }
+            }
+            break;
+        }
+    }
+    for(auto& element : elements)
+    {
+        if(element.name == currentTask.name)
+        {
+            bool isAllCompleted = true;
+            for(auto& material : element.materials)
+            {
+                if(material.second == false)
+                {
+                    isAllCompleted = false;
+                    break;
+                }
+            }
+            if(isAllCompleted)
+            {
+                element.isCompleted = true;
+                isHaveaTask = false;
+                currentTaskMat.clear();
+                currentTask.name.clear();
+                cout << R"(
+╦ ╦╔═╗╔╗╔╔╦╗╔═╗╦═╗╔═╗╦ ╦╦  
+║║║║ ║║║║ ║║║╣ ╠╦╝╠╣ ║ ║║  
+╚╩╝╚═╝╝╚╝═╩╝╚═╝╩╚═╚  ╚═╝╩═╝o
+You have completed all material!
+                )" << endl;
+                return;
+            }
+            else
+            {
+                isHaveaTask = false;
+                currentTaskMat.clear();
+                currentTask.name.clear();
+                cout << R"(
+╦ ╦╔═╗╔╗╔╔╦╗╔═╗╦═╗╔═╗╦ ╦╦  
+║║║║ ║║║║ ║║║╣ ╠╦╝╠╣ ║ ║║  
+╚╩╝╚═╝╝╚╝═╩╝╚═╝╩╚═╚  ╚═╝╩═╝o
+You have completed the material!
+                )" << endl;
+                return;
+            }
+        }
+    }
+}
+
+void Did::displayCurrentTask(void)
+{
+    if(elements.empty() || !isHaveaTask)
+    {
+        cout << "You don't have any elements yet or you have not a task!" << endl;
+        return;
+    }
+    cout << R"(
+ ▄▄▄▄▄▄▄▄▄▄▄  ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄    ▄ 
+▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌
+ ▀▀▀▀█░█▀▀▀▀ ▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀▀▀       ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░▌ ▐░▌ 
+     ▐░▌     ▐░▌       ▐░▌▐░▌                    ▐░▌     ▐░▌       ▐░▌▐░▌          ▐░▌▐░▌  
+     ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄           ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░▌░▌   
+     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌          ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌    
+     ▐░▌     ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀           ▐░▌     ▐░█▀▀▀▀▀▀▀█░▌ ▀▀▀▀▀▀▀▀▀█░▌▐░▌░▌   
+     ▐░▌     ▐░▌       ▐░▌▐░▌                    ▐░▌     ▐░▌       ▐░▌          ▐░▌▐░▌▐░▌  
+     ▐░▌     ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄           ▐░▌     ▐░▌       ▐░▌ ▄▄▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌ 
+     ▐░▌     ▐░▌       ▐░▌▐░░░░░░░░░░░▌          ▐░▌     ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌
+      ▀       ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀            ▀       ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀    ▀ 
+
+    )" << endl;
+
+    cout << currentTask.name << " -> " << currentTaskMat << endl;
 }
 
 void Did::updateElement(Element& element)
 {
 
 }
+/*
+
 
 void Did::deleteElement(Element& element)
 {

@@ -7,8 +7,12 @@ int theMenu(Did& did)
     {
         cout << "Enter choice: ";
         getline(cin, input);
-
-        if(input == "1")
+        if(input == "0")
+        {
+                cout << "The Menu:\n0- Display the menu\n1- Add new element\n2- Choice new task as random\n3- Update element\n"
+                "4- List elements\n5- Delete Element\n6- Display current task\n7- Exit" << endl;
+        }
+        else if(input == "1")
         {
             cout << "Enter the name of the element\nFor example: Reading\nEnter Element: ";
             getline(cin, input);
@@ -18,7 +22,50 @@ int theMenu(Did& did)
             did.randomHaveGetTask();
         else if(input == "3")
         {
-            cout << "Update" << endl;
+            cout << "Select your progress:\n1- Element operations\n2- Complete the task" << endl;
+            while(1)
+            {
+                cout << "Enter choice: ";
+                getline(cin, input);
+                if(input == "1")
+                {
+                    cout << "Element operations:\n1- Edit element or material\n"
+                    "2- Add a material into element" << endl;
+                    while(1)
+                    {
+                        if(input == "1")
+                        {
+                            cout << "Enter the name of the element\nFor example: Reading\nEnter Element: ";
+                            getline(cin, input);
+                            //did.editElement(input);
+                            break;
+                        }
+                        else if(input == "2")
+                        {
+                            cout << "Enter the name of the element\nFor example: Reading\nEnter Element: ";
+                            getline(cin, input);
+                            //did.addElementMaterial(input);
+                            break;
+                        }
+                        else
+                        {
+                            cout << "Wrong input!" << endl;
+                            input.clear();
+                        }
+                    }
+                    break;
+                }
+                else if(input == "2")
+                {
+                    did.completeTask();
+                    break;
+                }
+                else
+                {
+                    cout << "Wrong input!" << endl;
+                    input.clear();
+                }
+            }
         }
         else if(input == "4")
             did.listElements();
@@ -27,9 +74,7 @@ int theMenu(Did& did)
             cout << "Delete" << endl;
         }
         else if(input == "6")
-        {
-            cout << "Display current task" << endl;
-        }
+           did.displayCurrentTask();
         else if(input == "7")
         {
             cout << R"(
@@ -93,7 +138,7 @@ Rules:
  ------------------------------------------------------------------------------------------------------------                                                                                                 
     )" << endl;
 
-    cout << "The to do list:\n1- Add new element\n2- Choice new task as random\n3- Update element\n"
+    cout << "The Menu:\n0- Display the menu\n1- Add new element\n2- Choice new task as random\n3- Update element\n"
     "4- List elements\n5- Delete Element\n6- Display current task\n7- Exit" << endl;
 
     theMenu(did);

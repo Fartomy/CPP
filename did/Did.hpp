@@ -40,16 +40,17 @@ public:
     void addElement(const Element& element);
     void listElements(void);
     void randomHaveGetTask(void);
+    void updateElement(Element& element);
+    void completeTask(void);
+    void displayCurrentTask(void);
 /*
     void isHaveaAnyTask(void);
-    void updateElement(Element& element);
     void deleteElement(Element& element);
     void Save(void);
     void Load(void);
-    void displayCurrentTask(void);
 */
     // Friend functions
-    friend void getRandomMaterial(const Did& obj);
+    //friend void getRandomMaterial(const Did& obj);
 
 private:
     vector<Element> elements;
