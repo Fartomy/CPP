@@ -40,9 +40,10 @@ public:
     void addElement(const Element& element);
     void listElements(void);
     void randomHaveGetTask(void);
-    void updateElement(Element& element);
+    void editElement(string elementName);
     void completeTask(void);
     void displayCurrentTask(void);
+    void addElementMaterial(string elementName, string materialName);
 /*
     void isHaveaAnyTask(void);
     void deleteElement(Element& element);

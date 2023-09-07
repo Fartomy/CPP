@@ -5,7 +5,7 @@ int theMenu(Did& did)
     string input;
     while (1)
     {
-        cout << "Enter choice: ";
+        cout << "[MENU] Enter choice: ";
         getline(cin, input);
         if(input == "0")
         {
@@ -22,29 +22,37 @@ int theMenu(Did& did)
             did.randomHaveGetTask();
         else if(input == "3")
         {
-            cout << "Select your progress:\n1- Element operations\n2- Complete the task" << endl;
+            cout << "[Menu-3] Select your progress:\n1- Element operations\n2- Complete the task" << endl;
             while(1)
             {
-                cout << "Enter choice: ";
+                cout << "[Menu-3] Enter choice: ";
                 getline(cin, input);
                 if(input == "1")
                 {
-                    cout << "Element operations:\n1- Edit element or material\n"
+                    cout << "[Menu-3.1] Element operations:\n1- Edit element or material\n"
                     "2- Add a material into element" << endl;
+                    input.clear();
                     while(1)
                     {
+                        cout << "[Menu-3.1] Enter choice: ";
+                        getline(cin, input);
                         if(input == "1")
                         {
-                            cout << "Enter the name of the element\nFor example: Reading\nEnter Element: ";
+                            cout << "[Menu-3.1.1] Enter the name of the element\nFor example: 'Reading'\n"
+                            "[Menu-3.1.1] Enter element name: ";
                             getline(cin, input);
-                            //did.editElement(input);
+                            did.editElement(input);
                             break;
                         }
                         else if(input == "2")
                         {
-                            cout << "Enter the name of the element\nFor example: Reading\nEnter Element: ";
+                            cout << "[Menu-3.1.2] Enter element name: ";
                             getline(cin, input);
-                            //did.addElementMaterial(input);
+                            string elementName = input;
+                            input.clear();
+                            cout << "[Menu-3.1.2] Enter a new material name: ";
+                            getline(cin, input);
+                            did.addElementMaterial(elementName, input);
                             break;
                         }
                         else
