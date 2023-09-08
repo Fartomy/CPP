@@ -36,22 +36,20 @@ class Did
 public:
     Did();
 
-    Element generateNewElement(string elementName);
-    void addElement(const Element& element);
+    Element generateNewElement(string);
+    void addElement(const Element&);
     void listElements(void);
     void randomHaveGetTask(void);
-    void editElement(string elementName);
+    void editElement(string);
     void completeTask(void);
     void displayCurrentTask(void);
-    void addElementMaterial(string elementName, string materialName);
+    void addElementMaterial(string, string);
+    void deleteElement(string);
+    void deleteElementMaterial(string, string);
 /*
-    void isHaveaAnyTask(void);
-    void deleteElement(Element& element);
     void Save(void);
     void Load(void);
 */
-    // Friend functions
-    //friend void getRandomMaterial(const Did& obj);
 
 private:
     vector<Element> elements;

@@ -6,13 +6,18 @@ Element Did::generateNewElement(string elementName)
 {
     Element element;
 
+    for(auto &elm : elements)
+    {
+        if(elm.name == elementName)
+            return element;
+    }
     element.name = elementName;
-    cout << "Enter the name of the material(at least 1)\nFor example: 'e-book' to 'Reading' element"
+    cout << "[Menu-1] Enter the name of the material (at least 1)\nFor example: 'e-book' to 'Reading' element"
             "\nTo exit please type 'end'"
          << endl;
     while (1)
     {
-        cout << "Enter Material: ";
+        cout << "[Menu-1] Enter Material: ";
         getline(cin, elementName);
         if (elementName == "end" && element.materials.size() > 0)
             break;
@@ -24,7 +29,13 @@ Element Did::generateNewElement(string elementName)
 
 void Did::addElement(const Element &element)
 {
-    elements.push_back(element);
+    if(element.name.empty())
+    {
+        cout << "This element already exists!" << endl;
+        return;
+    }
+    else
+        elements.push_back(element);
 }
 
 void Did::listElements(void)
@@ -33,28 +44,28 @@ void Did::listElements(void)
     string input;
     if (elements.empty())
     {
-        cout << "You don't have any elements yet!" << endl;
+        cout << "[Menu-4] You don't have any elements yet!" << endl;
         return;
     }
-    cout << "The elements:" << endl;
+    cout << "[Menu-4] The elements:" << endl;
     for (auto element : elements)
     {
         cout << i + 1 << "- " << element.name << " | status: " << boolalpha << element.isCompleted << noboolalpha << endl;
         i++;
     }
-    cout << "Enter the name of the element to see the materials\nFor example: 'Reading'"
+    cout << "[Menu-4] Enter the name of the element to see the materials\nFor example: 'Reading'"
             " or 'end' to exit"
          << endl;
     while (1)
     {
-        cout << "Enter element name: ";
+        cout << "[Menu-4] Enter element name: ";
         getline(cin, input);
         int i = 0;
         for (auto element : elements)
         {
             if (element.name == input)
             {
-                cout << "Materials of [" << element.name << "]:" << endl;
+                cout << "[Menu-4] Materials of [" << element.name << "]:" << endl;
                 for (auto material : element.materials)
                 {
                     cout << i + 1 << "-  " << material.first << " | status: " << boolalpha << material.second << noboolalpha << endl;
@@ -65,7 +76,7 @@ void Did::listElements(void)
         if (input == "end")
             break;
         else if (i == 0)
-            cout << "Wrong input!" << endl;
+            cout << "[Menu-4] Wrong input!" << endl;
     }
 }
 
@@ -73,7 +84,7 @@ void Did::randomHaveGetTask(void)
 {
     if (elements.empty() || isHaveaTask)
     {
-        cout << "You don't have any elements yet or you have a already task!" << endl;
+        cout << "[Menu-2] You don't have any elements yet or you have a already task!" << endl;
         return;
     }
     vector<Element> falseElements;
@@ -87,7 +98,7 @@ void Did::randomHaveGetTask(void)
     if (falseElements.empty())
     {
         cout << R"(
-
+[Menu-2]
  ██████╗ ██████╗ ███╗   ██╗ ██████╗  ██████╗ ██████╗  █████╗ ████████╗██╗   ██╗██╗      █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗██╗
 ██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔═══██╗██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██║     ██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝██║
 ██║     ██║   ██║██╔██╗ ██║██║  ███╗██║   ██║██████╔╝███████║   ██║   ██║   ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗██║
@@ -126,8 +137,8 @@ Whole elements are resetting..
             currentTaskMat = falseMaterials[randomElement];
         }
         diceRollEffc();
-        cout << "Result:" << endl;
-        cout << "Your task is: " << currentTask.name << " -> " << currentTaskMat << endl;
+        cout << "[Menu-2] Result:" << endl;
+        cout << "[Menu-2] Your task is: " << currentTask.name << " -> " << currentTaskMat << endl;
         return;
     }
     else
@@ -150,8 +161,8 @@ Whole elements are resetting..
             currentTaskMat = falseMaterials[randomElement];
         }
         diceRollEffc();
-        cout << "Result:" << endl;
-        cout << "Your task is: " << currentTask.name << " -> " << currentTaskMat << endl;
+        cout << "[Menu-2] Result:" << endl;
+        cout << "[Menu-2] Your task is: " << currentTask.name << " -> " << currentTaskMat << endl;
         return;
     }
 }
@@ -237,10 +248,11 @@ void Did::displayCurrentTask(void)
 {
     if (elements.empty() || !isHaveaTask)
     {
-        cout << "You don't have any elements yet or you have not a task!" << endl;
+        cout << "[Menu-6] You don't have any elements yet or you have not a task!" << endl;
         return;
     }
     cout << R"(
+[Menu-6]
  ▄▄▄▄▄▄▄▄▄▄▄  ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄    ▄ 
 ▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌
  ▀▀▀▀█░█▀▀▀▀ ▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀▀▀       ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░▌ ▐░▌ 
@@ -254,8 +266,7 @@ void Did::displayCurrentTask(void)
       ▀       ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀            ▀       ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀    ▀ 
 
     )" << endl;
-
-    cout << currentTask.name << " -> " << currentTaskMat << endl;
+    cout << "[Menu-4] [" << currentTask.name << " -> " << currentTaskMat << "]" << endl;
 }
 
 void Did::editElement(string elementName)
@@ -364,21 +375,90 @@ void Did::addElementMaterial(string elementName, string materialName)
         cout << "[Menu-3.1.2] Element not found!" << endl;
 }
 
-/*
-void Did::deleteElement(Element& element)
+void Did::deleteElement(string elementName)
 {
-
+    if (elements.empty())
+    {
+        cout << "[Menu-5] You don't have any elements yet!" << endl;
+        return;
+    }
+    else if (currentTask.name == elementName)
+    {
+        cout << "[Menu-5] You can't delete the element because you have a task!" << endl;
+        return;
+    }
+    string input;
+    cout << "[Menu-5.1] Are you sure? (y/n): ";
+    getline(cin, input);
+    if (input == "y")
+    {
+        bool isFound = false;
+        for (auto it = elements.begin(); it != elements.end(); ++it)
+        {
+            if (it->name == elementName)
+            {
+                isFound = true;
+                elements.erase(it);
+                break;
+            }
+        }
+        if (isFound)
+            cout << "[Menu-5.1] Element deleted! [" << elementName << "]"<< endl;
+        else
+            cout << "[Menu-5.1] Element not found!" << endl;
+    }
+    else
+        cout << "[Menu-5.1] Canceled!" << endl;
 }
 
+void Did::deleteElementMaterial(string elementName, string matName)
+{
+    if (elements.empty())
+    {
+        cout << "[Menu-5] You don't have any elements yet!" << endl;
+        return;
+    }
+    else if(currentTaskMat == matName && currentTask.name == elementName)
+    {
+        cout << "[Menu-5] You can't delete the material because you have a task!" << endl;
+        return;
+    }
+    string input;
+    cout << "[Menu-5.2] Are you sure? (y/n): ";
+    getline(cin, input);
+    if (input == "y")
+    {
+        bool isFound = false;
+        for (auto &element : elements)
+        {
+            if (element.name == elementName)
+            {
+                isFound = true;
+                auto it = element.materials.find(matName);
+                if (it != element.materials.end())
+                {
+                    element.materials.erase(it);
+                    break;
+                }
+                else
+                {
+                    cout << "[Menu-5.2] Material not found!" << endl;
+                    return;
+                }
+            }
+        }
+        if (isFound)
+            cout << "[Menu-5.2] Material deleted! [" << matName << "]" << endl;
+        else
+            cout << "[Menu-5.2] Material not deleted because element not found!" << endl;
+    }
+    else
+        cout << "[Menu-5.2] Canceled!" << endl;
+}
+
+/*
 void Did::isHaveaAnyElement(void)
 {
 
 }
-
-// Friend Functions
-void getRandomMaterial(const Did& obj)
-{
-
-}
-
 */
