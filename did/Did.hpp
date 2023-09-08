@@ -10,6 +10,7 @@
 #include <vector>
 #include <thread>
 #include <unistd.h>
+#include <fstream>
 
 using std::cout;
 using std::cin;
@@ -46,10 +47,9 @@ public:
     void addElementMaterial(string, string);
     void deleteElement(string);
     void deleteElementMaterial(string, string);
-/*
-    void Save(void);
-    void Load(void);
-*/
+//Friend functions
+    friend void Save(Did&);
+    friend void Load(Did&);
 
 private:
     vector<Element> elements;

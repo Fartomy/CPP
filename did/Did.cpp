@@ -35,7 +35,10 @@ void Did::addElement(const Element &element)
         return;
     }
     else
+    {
         elements.push_back(element);
+        Save(*this);
+    }
 }
 
 void Did::listElements(void)
@@ -68,7 +71,7 @@ void Did::listElements(void)
                 cout << "[Menu-4] Materials of [" << element.name << "]:" << endl;
                 for (auto material : element.materials)
                 {
-                    cout << i + 1 << "-  " << material.first << " | status: " << boolalpha << material.second << noboolalpha << endl;
+                    cout << i + 1 << "- " << material.first << " | status: " << boolalpha << material.second << noboolalpha << endl;
                     i++;
                 }
             }
@@ -117,6 +120,7 @@ Whole elements are resetting..
             for (auto it = elements[i].materials.begin(); it != elements[i].materials.end(); ++it)
                 it->second = false;
         }
+        Save(*this);
         return;
     }
     else if (falseElements.size() == 1)
@@ -139,6 +143,7 @@ Whole elements are resetting..
         diceRollEffc();
         cout << "[Menu-2] Result:" << endl;
         cout << "[Menu-2] Your task is: " << currentTask.name << " -> " << currentTaskMat << endl;
+        Save(*this);
         return;
     }
     else
@@ -163,6 +168,7 @@ Whole elements are resetting..
         diceRollEffc();
         cout << "[Menu-2] Result:" << endl;
         cout << "[Menu-2] Your task is: " << currentTask.name << " -> " << currentTaskMat << endl;
+        Save(*this);
         return;
     }
 }
@@ -219,6 +225,7 @@ void Did::completeTask(void)
 ╚╩╝╚═╝╝╚╝═╩╝╚═╝╩╚═╚  ╚═╝╩═╝o
 You have completed all material!
                 )" << endl;
+                    Save(*this);
                     return;
                 }
                 else
@@ -232,6 +239,7 @@ You have completed all material!
 ╚╩╝╚═╝╝╚╝═╩╝╚═╝╩╚═╚  ╚═╝╩═╝o
 You have completed the material!
                 )" << endl;
+                    Save(*this);
                     return;
                 }
             }
@@ -266,7 +274,7 @@ void Did::displayCurrentTask(void)
       ▀       ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀            ▀       ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀    ▀ 
 
     )" << endl;
-    cout << "[Menu-4] [" << currentTask.name << " -> " << currentTaskMat << "]" << endl;
+    cout << "[Menu-6] [" << currentTask.name << " -> " << currentTaskMat << "]" << endl;
 }
 
 void Did::editElement(string elementName)
@@ -303,7 +311,10 @@ void Did::editElement(string elementName)
                 }
             }
             if (isFound)
+            {
                 cout << "[Menu-3.1.1.1] Element name changed!" << endl;
+                Save(*this);
+            }
             else
                 cout << "[Menu-3.1.1.1] Element not found!" << endl;
             input.clear();
@@ -338,7 +349,10 @@ void Did::editElement(string elementName)
             if (!isFound)
                 cout << "[Menu-3.1.1.2] Material name is not changed because element not found!" << endl;
             else
+            {
                 cout << "[Menu-3.1.1.2] Material name changed!" << endl;
+                Save(*this);
+            }
             input.clear();
             break;
         }
@@ -370,7 +384,10 @@ void Did::addElementMaterial(string elementName, string materialName)
         }
     }
     if (isFound)
+    {
         cout << "[Menu-3.1.2] Material added!" << endl;
+        Save(*this);
+    }
     else
         cout << "[Menu-3.1.2] Element not found!" << endl;
 }
@@ -403,7 +420,10 @@ void Did::deleteElement(string elementName)
             }
         }
         if (isFound)
+        {
             cout << "[Menu-5.1] Element deleted! [" << elementName << "]"<< endl;
+            Save(*this);
+        }
         else
             cout << "[Menu-5.1] Element not found!" << endl;
     }
@@ -448,17 +468,13 @@ void Did::deleteElementMaterial(string elementName, string matName)
             }
         }
         if (isFound)
+        {
             cout << "[Menu-5.2] Material deleted! [" << matName << "]" << endl;
+            Save(*this);
+        }
         else
             cout << "[Menu-5.2] Material not deleted because element not found!" << endl;
     }
     else
         cout << "[Menu-5.2] Canceled!" << endl;
 }
-
-/*
-void Did::isHaveaAnyElement(void)
-{
-
-}
-*/

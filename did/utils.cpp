@@ -127,6 +127,7 @@ int theMenu(Did &did)
                                                                                                |\__\
                                                                                                \|__|
             )" << endl;
+            Save(did);
             return 0;
         }
         else
@@ -159,6 +160,7 @@ void welcome(Did &did)
 ******************************************************************************
     )" << endl;
     progressBarEffc();
+    Load(did);
     cout << R"(
  __          __  _               _           _                                           _           ___  
  \ \        / / | |             | |         | |                                         | |         |__ \ 
@@ -232,4 +234,109 @@ void diceRollEffc()
         }
     }
     std::cout << std::endl;
+}
+
+static string trim(const string &str, const string &chars)
+{
+    size_t baslangic = str.find_first_not_of(chars);
+    size_t son = str.find_last_not_of(chars);
+
+    if (baslangic == std::string::npos) 
+        return "";
+    else
+        return str.substr(baslangic, son - baslangic + 1);
+}
+
+static vector<string> split(const string& str, char delimiter)
+{
+    vector<string> tokens;
+    string token;
+    string::size_type start = 0;
+    string::size_type end = str.find(delimiter);
+
+    while (end != string::npos)
+    {
+        token = str.substr(start, end - start + 1);
+        tokens.push_back(token);
+        start = end + 1;
+        end = str.find(delimiter, start);
+    }
+
+    token = str.substr(start);
+    tokens.push_back(token);
+
+    return tokens;
+}
+
+void Save(Did& did)
+{
+    std::ofstream file("save");
+    if (file.is_open())
+    {
+        if(did.currentTask.name.empty() && did.currentTaskMat.empty())
+            file << "null" << endl << "null" << endl;
+        else
+            file << did.currentTask.name << endl << did.currentTaskMat << endl;
+        file << boolalpha << did.isHaveaTask << endl;
+        for (auto &element : did.elements)
+        {
+            file << element.name << ',';
+            file << element.isCompleted << ',';
+            for (auto &material : element.materials)
+            {
+                file << material.first << '.';
+                file << material.second << ',';
+            }
+            file << "end" << endl;
+        }
+        file << noboolalpha;
+        file.close();
+    }
+    else
+        cerr << "Unable to open file" << endl;
+}
+
+void Load(Did& did)
+{
+    std::ifstream file("save");
+    if (file.is_open())
+    {
+        string line, fileStr;
+        vector<string> tokens,tokens2;
+
+        while (getline(file, line))
+            fileStr += line + '\n';
+        file.close();
+
+        tokens = split(fileStr, '\n');        
+        tokens.pop_back();
+        did.currentTask.name = trim(tokens[0], " \t\n\r");
+        did.currentTaskMat = trim(tokens[1], " \t\n\r");
+        if(trim(tokens[2], " \t\n\r") == "true")
+            did.isHaveaTask = true;
+        else
+            did.isHaveaTask = false;
+        for(int i = 3; i < tokens.size(); i++)
+        {
+            Element element;
+
+            tokens2 = split(tokens[i], ',');
+            element.name = trim(tokens2[0], " ,\t\n\r");
+            if(trim(tokens2[1], " ,\t\n\r") == "true")
+                element.isCompleted = true;
+            else
+                element.isCompleted = false;
+            
+            for(int j = 2; j < tokens2.size(); ++j)
+            {
+                if(trim(tokens2[j], " \t\n\r") == "end")
+                    break;
+                vector<string> tokens3 = split(tokens2[j], '.');
+                element.materials[trim(tokens3[0], " ,.\t\n\r")] = trim(tokens3[1], " ,.\t\n\r") == "true";
+            }
+            did.elements.push_back(element);
+        }
+    }
+    else
+        cerr << "File is not created yet!" << endl;
 }
